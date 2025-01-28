@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Campus%20X/projects/youtube%20comments%20sentiment%20analysis/youtube%20comments%20sentiment%20analysis/mlruns/0/c2a00b7c9b30486f9a3697cbee1a1ae8/artifacts
+end_time: 1738087521809
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c2a00b7c9b30486f9a3697cbee1a1ae8
+run_name: TF-IDF_(1, 2)_RandomForest
+run_uuid: c2a00b7c9b30486f9a3697cbee1a1ae8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1738087513900
+status: 3
+tags: []
+user_id: manik

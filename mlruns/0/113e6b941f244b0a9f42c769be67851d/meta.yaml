@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Campus%20X/projects/youtube%20comments%20sentiment%20analysis/youtube%20comments%20sentiment%20analysis/mlruns/0/113e6b941f244b0a9f42c769be67851d/artifacts
+end_time: 1738087511093
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 113e6b941f244b0a9f42c769be67851d
+run_name: BoW_(1, 2)_RandomForest
+run_uuid: 113e6b941f244b0a9f42c769be67851d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1738087503907
+status: 3
+tags: []
+user_id: manik
