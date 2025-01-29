@@ -33,12 +33,11 @@ stages:
     - tfidf_vectorizer.pkl
 
   model_evaluation:
-    cmd: python src/models/model_evaluation.py
+    cmd: python src\models\model_evaluation.py
     deps:
     - lgbm_model.pkl
     - tfidf_vectorizer.pkl
     - data/interim/train_processed.csv
     - data/interim/test_processed.csv
     - src/models/model_evaluation.py
-    outs:
-    - experiment_info.json
+   
