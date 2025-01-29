@@ -72,22 +72,27 @@ def normalize_text(df):
         raise
 
 def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str) -> None:
-    """Save the processed train and test datasets."""
+    """Save the processed train and test datasets using pathlib."""
     try:
-        interim_data_path = Path(data_path)
-        interim_data_path = interim_data_path / 'interim'
-
-        logger.debug(f"Creating directory {interim_data_path}")
-        interim_data_path.mkdir(parents=True, exist_ok=True)  # Create the directory if it doesn't exist
-        logger.debug(f"Directory {interim_data_path} created or already exists")
-
-        train_data.to_csv(os.path.join(interim_data_path, "train_processed.csv"), index=False)
-        test_data.to_csv(os.path.join(interim_data_path, "test_processed.csv"), index=False)
+        # Convert data_path to a Path object and define the processed directory
+        processed_data_path = Path(data_path) / "processed"
         
-        logger.debug(f"Processed data saved to {interim_data_path}")
+        # Create the 'processed' directory if it doesn't exist
+        logger.debug(f"Creating directory {processed_data_path}")
+        processed_data_path.mkdir(parents=True, exist_ok=True)  # This creates the directory
+        
+        logger.debug(f"Directory {processed_data_path} created or already exists")
+
+        # Save the processed data
+        train_data.to_csv(processed_data_path / "train_processed.csv", index=False)
+        test_data.to_csv(processed_data_path / "test_processed.csv", index=False)
+        
+        logger.debug(f"Processed data saved to {processed_data_path}")
     except Exception as e:
         logger.error(f"Error occurred while saving data: {e}")
         raise
+
+data_path = Path(__file__).resolve().parent.parent / "data"
 
 def main():
     try:
@@ -106,7 +111,7 @@ def main():
         test_processed_data = normalize_text(test_data)
 
         # Save the processed data using pathlib
-        save_data(train_processed_data, test_processed_data, data_path="./data")
+        save_data(train_processed_data, test_processed_data, data_path="./data/")
 
     except Exception as e:
         logger.error("Failed to complete the data preprocessing process: %s", e)
