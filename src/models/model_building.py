@@ -141,7 +141,7 @@ def main():
         n_estimators = params['model_building']['n_estimators']
 
         # Load the preprocessed training data from the interim directory
-        train_data_path = root_dir / 'data' / 'interim' / 'train_processed.csv'
+        train_data_path = root_dir / 'data' / 'processed' / 'train_processed.csv'
         train_data = load_data(train_data_path)
 
         # Apply TF-IDF feature engineering on training data

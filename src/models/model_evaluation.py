@@ -1,3 +1,7 @@
+import os
+import certifi
+os.environ["SSL_CERT_FILE"] = certifi.where()
+
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -143,7 +147,7 @@ def main():
     with mlflow.start_run() as run:
         try:
             # Load parameters from YAML file
-            root_dir = Path(__file__).resolve().parent.parent
+            root_dir = Path(__file__).resolve().parent.parent.parent
             params = load_params(root_dir / 'params.yaml')
 
             # Log parameters
@@ -155,7 +159,7 @@ def main():
             vectorizer = load_vectorizer(root_dir / 'tfidf_vectorizer.pkl')
 
             # Load test data for signature inference
-            test_data = load_data(root_dir / 'data/interim/test_processed.csv')
+            test_data = load_data(root_dir / 'data/processed/test_processed.csv')
 
             # Prepare test data
             X_test_tfidf = vectorizer.transform(test_data['clean_comment'].values)

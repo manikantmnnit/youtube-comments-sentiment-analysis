@@ -1,9 +1,9 @@
 schema: '2.0'
 stages:
   data_ingestion:
-    cmd: python src\data\data_ingestion.py
+    cmd: python src/data/data_ingestion.py
     deps:
-    - path: src\data\data_ingestion.py
+    - path: src/data/data_ingestion.py
       hash: md5
       md5: 6046702b37d6a5a545794ec2f1f4e057
       size: 4616
@@ -17,7 +17,7 @@ stages:
       size: 6919701
       nfiles: 2
   data_preprocessing:
-    cmd: python src\data\data_preprocessing.py
+    cmd: python src/data/data_preprocessing.py
     deps:
     - path: data/raw/test.csv
       hash: md5
@@ -27,7 +27,7 @@ stages:
       hash: md5
       md5: 18b3faba324bc010ea34ff2d9244645f
       size: 5238770
-    - path: src\data\data_preprocessing.py
+    - path: src/data/data_preprocessing.py
       hash: md5
       md5: 32fa6180226d0555f877ce13ce8f0b12
       size: 4272
@@ -40,14 +40,14 @@ stages:
   model_building:
     cmd: python src/models/model_building.py
     deps:
-    - path: data/interim/train_processed.csv
+    - path: data/processed/train_processed.csv
       hash: md5
       md5: b5a818f46d32f38de3b86a761aa39e1e
       size: 3886282
     - path: src/models/model_building.py
       hash: md5
-      md5: 35d13ab460c0a8a8e79bfb38a0504b3e
-      size: 5761
+      md5: 9d4e9b2fca1f5dfbb99b5bf280548b6c
+      size: 5763
     params:
       params.yaml:
         model_building.learning_rate: 0.09
@@ -64,16 +64,16 @@ stages:
       size: 3874244
     - path: tfidf_vectorizer.pkl
       hash: md5
-      md5: a197c4a6a8f6ac11967d228ca346de5f
+      md5: 4297c8ac6daa80ef72e5063c7d89b9c4
       size: 17321640
   model_evaluation:
-    cmd: python src\models\model_evaluation.py
+    cmd: python src/models/model_evaluation.py
     deps:
-    - path: data/interim/test_processed.csv
+    - path: data/processed/test_processed.csv
       hash: md5
       md5: 20e0d1f7475c3f6ff20400efbc8c4774
       size: 1248568
-    - path: data/interim/train_processed.csv
+    - path: data/processed/train_processed.csv
       hash: md5
       md5: b5a818f46d32f38de3b86a761aa39e1e
       size: 3886282
@@ -83,9 +83,9 @@ stages:
       size: 3874244
     - path: src/models/model_evaluation.py
       hash: md5
-      md5: 5192acd5897a11d34f4f9bb4f4021fc2
-      size: 7501
+      md5: 1751efd347785406f1d603bc368caf1d
+      size: 7584
     - path: tfidf_vectorizer.pkl
       hash: md5
-      md5: a197c4a6a8f6ac11967d228ca346de5f
+      md5: 4297c8ac6daa80ef72e5063c7d89b9c4
       size: 17321640
