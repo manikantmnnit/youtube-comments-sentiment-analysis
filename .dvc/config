@@ -1,4 +1,4 @@
 [core]
-    remote = localremote
-['remote "localremote"']
-    url = D:/Campus X/projects/youtube comments sentiment analysis/dvc_pipe_data_storage
+    remote = gcpremote
+['remote "gcpremote"']
+    url = gs://youtube_comment_bucket
