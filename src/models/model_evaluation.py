@@ -147,26 +147,26 @@ def main():
     with mlflow.start_run() as run:
         try:
             # Load parameters from YAML file
-            root_dir = Path(__file__).resolve().parent.parent.parent
-            params = load_params(root_dir / 'params.yaml')
+            root_dir = Path(__file__).resolve().parent.parent.parent # <--- Changed to 3 levels up
+            params = load_params(root_dir / 'params.yaml') # recall that the params.yaml file is in the root directory
 
             # Log parameters
-            for key, value in params.items():
+            for key, value in params.items(): # <--- Added for logging parameters
                 mlflow.log_param(key, value)
             
             # Load model and vectorizer
-            model = load_model(root_dir / 'lgbm_model.pkl')
-            vectorizer = load_vectorizer(root_dir / 'tfidf_vectorizer.pkl')
+            model = load_model(root_dir / 'lgbm_model.pkl') # recall that the model is saved in the root directory
+            vectorizer = load_vectorizer(root_dir / 'tfidf_vectorizer.pkl') # recall that the vectorizer is saved in the root directory
 
             # Load test data for signature inference
-            test_data = load_data(root_dir / 'data/processed/test_processed.csv')
+            test_data = load_data(root_dir / 'data/processed/test_processed.csv') # recall that the test data is in the processed folder
 
             # Prepare test data
-            X_test_tfidf = vectorizer.transform(test_data['clean_comment'].values)
-            y_test = test_data['category'].values
+            X_test_tfidf = vectorizer.transform(test_data['clean_comment'].values) # transform the comments to TF-IDF features
+            y_test = test_data['category'].values # get the target values
 
             # Create a DataFrame for signature inference (using first few rows as an example)
-            input_example = pd.DataFrame(X_test_tfidf.toarray()[:5], columns=vectorizer.get_feature_names_out())  # <--- Added for signature
+            input_example = pd.DataFrame(X_test_tfidf.toarray()[:5], columns=vectorizer.get_feature_names_out())  # defines the schema of the model's inputs and outputs
 
             # Infer the signature
             signature = infer_signature(input_example, model.predict(X_test_tfidf[:5]))  # <--- Added for signature
@@ -175,12 +175,13 @@ def main():
             mlflow.sklearn.log_model(
                 model,
                 "lgbm_model",
-                signature=signature,  # <--- Added for signature
+                signature=signature,  # <--- Added for signature 
                 input_example=input_example  # <--- Added input example
             )
 
             # Save model info
-            model_path = "lgbm_model"
+            artifact_uri=mlflow.get_artifact_uri()
+            model_path = f"{artifact_uri}/lgbm_model"
             save_model_info(run.info.run_id, model_path, root_dir / 'experiment_info.json')
 
             # Log the vectorizer as an artifact
@@ -211,5 +212,5 @@ def main():
             print(f"Error: {e}")
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # 
     main()
