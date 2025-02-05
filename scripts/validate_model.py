@@ -2,6 +2,12 @@
 import mlflow
 from mlflow.tracking import MlflowClient
 
+import dagshub
+import mlflow.client
+
+import dagshub
+dagshub.init(repo_owner='manikantmnnit', repo_name='youtube-comments-sentiment-analysis', mlflow=True)
+
 mlflow.set_tracking_uri("https://dagshub.com/manikantmnnit/youtube-comments-sentiment-analysis.mlflow")
 
 
@@ -21,5 +27,5 @@ def load_model_from_registry(model_name,model_version):
     model=mlflow.pyfunc.load_model(model_uri)
     return model
 model1=load_model_from_registry("yt_chrome_plugin_model_updated","1")
-print("model loaded sucessfully")
+print("model loaded successfully")
 # %%

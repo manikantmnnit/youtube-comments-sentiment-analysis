@@ -65,11 +65,23 @@ vectorizer_path=root_path/"tfidf_vectorizer.pkl"
 # Initialize model
 model, vectorizer = load_model_and_vectorizer("yt_chrome_plugin_model_updated", "1", vectorizer_path)
 #%%
+comments=["I love India"," I dont like vegetables"]
+preprocessed_comments = [preprocess_comment(comment) for comment in comments]
+transformed_comments = vectorizer.transform(preprocessed_comments).toarray()
+
+# Convert to DataFrame with correct column names
+feature_names = vectorizer.get_feature_names_out()
+df_transformed = pd.DataFrame(transformed_comments, columns=feature_names)
+
+# Predict using the model
+predictions = model.predict(df_transformed).tolist()# predictions = [str(pred) for pred in predictions]
+
+#%%
 @app.route('/')
 def home():
     return "Welcome to our Flask API"
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
     comments = data.get('comments')
@@ -78,25 +90,15 @@ def predict():
         return jsonify({"error": "No comments provided"}), 400  
 
     try:
-        preprocessed_comments = [preprocess_comment(comment) for comment in comments]
-        transformed_comments = vectorizer.transform(preprocessed_comments).toarray()
+        
 
-        # Convert to DataFrame with correct column names
-        feature_names = vectorizer.get_feature_names_out()
-        df_transformed = pd.DataFrame(transformed_comments, columns=feature_names)
-
-# Predict using the model
-        predictions = model.predict(df_transformed).tolist()# predictions = [str(pred) for pred in predictions]
-
-        predictions = [str(pred) for pred in predictions]
-
-        response = [{"comment": comment, "sentiment": sentiment} for comment, sentiment in zip(comments, predictions)]
-        return jsonify(response)
     except Exception as e:
         return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
-       
+
+    response = [{"comment": comment, "sentiment": sentiment} for comment, sentiment in zip(comments, predictions)]
+    
+    return jsonify(response)
 
 if __name__ == '__main__':
     # For development:
     app.run(host='0.0.0.0', port=8000)
-# %%

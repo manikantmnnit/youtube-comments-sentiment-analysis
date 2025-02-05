@@ -13,3 +13,5 @@ nltk
 mlflow
 dagshub
 imbalanced-learn==0.9.0  # Compatible with scikit-learn 1.x and 0.24.x
+fastapi
+uvicorn
